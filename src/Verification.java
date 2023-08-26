@@ -1,7 +1,8 @@
 import java.util.List;
+import java.util.Locale;
 
 public class Verification {
-    private final String TXT = ".txt";
+    LocaleManager localeManager = new LocaleManager(new Locale("ru", "RU"));
 
     public int checkName(String name, List<Student> students) {
         int count = -1;
@@ -12,13 +13,12 @@ public class Verification {
         }
         return count;
     }
-
     public boolean checkNameFile(String nameFile) {
-        if (nameFile.length() <= TXT.length()) {
+        if (nameFile.length() <= localeManager.getText("TXT").length()) {
             return false;
         }
         String numbers = nameFile.substring(nameFile.length() - 4);
-        return numbers.equals(TXT);
+        return numbers.equals(localeManager.getText("TXT"));
     }
 
 

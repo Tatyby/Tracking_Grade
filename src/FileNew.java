@@ -1,29 +1,26 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.Locale;
 
 public class FileNew {
-    private final String FILE_NO_CREATE = "Файл не был создан";
-    private final String FILE_CREATE = "файл %s успешно создан  \n";
-    private final String INPUT_NAME_FILE = "укажите имя файла в формате XXX.txt";
-    private final String INPUT_CORRECT_NAME_FILE = "Введите корректное наименование файла";
-    Scanner scanner = new Scanner(System.in);
+    LocaleManager localeManager = new LocaleManager(new Locale("ru", "RU"));
     Verification verification = new Verification();
+    Menu menu = new Menu();
 
     public String newFile() {
-        System.out.println(INPUT_NAME_FILE);
-        String nameFile = scanner.nextLine();
+        menu.printConsole(localeManager.getText("INPUT_NAME_FILE"));
+        String nameFile = menu.scannerConsole();
         while (!verification.checkNameFile(nameFile)) {
-            System.out.println(INPUT_CORRECT_NAME_FILE);
-            nameFile = scanner.nextLine();
+            menu.printConsole(localeManager.getText("INPUT_CORRECT_NAME_FILE"));
+            nameFile = menu.scannerConsole();
         }
         File file = new File(nameFile);
         try {
             if (file.createNewFile()) {
-                System.out.printf(FILE_CREATE, nameFile);
+                menu.printConsole(localeManager.getText("FILE_CREATE"), nameFile);
 
             } else {
-                System.out.println(FILE_NO_CREATE);
+                menu.printConsole(localeManager.getText("FILE_NO_CREATE"));
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
